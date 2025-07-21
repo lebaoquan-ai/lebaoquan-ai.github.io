@@ -1,24 +1,64 @@
 {
-  "name": "lebaoquan-ai.github.io",
-  "version": "1.0.0",
-  "description": "1. Test with a simple index.html file",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/lebaoquan-ai/lebaoquan-ai.github.io.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "bugs": {
-    "url": "https://github.com/lebaoquan-ai/lebaoquan-ai.github.io/issues"
-  },
-  "homepage": "https://github.com/lebaoquan-ai/lebaoquan-ai.github.io#readme",
-  "dependencies": {
-    "@11ty/eleventy": "^3.1.2"
-  }
+    "name": "lebaoquan-ai.github.io",
+    "version": "1.0.0",
+    "description": "Personal Website of Le Bao Quan",
+    "license": "CC BY-SA",
+    "browserslist": [
+        "defaults"
+    ],
+    "type": "module",
+    "scripts": {
+        "start": "npm run dev",
+        "dev": "npm-run-all --parallel dev:* --print-label",
+        "dev:eleventy": "eleventy --serve",
+        "dev:vite": "vite",
+        "build": "NODE_ENV=production npm-run-all clean build:vite build:eleventy workbox clean:vite --print-label",
+        "build:eleventy": "eleventy",
+        "build:vite": "vite build",
+        "clean": "del-cli dist",
+        "clean:vite": "del-cli dist/.vite",
+        "serve": "serve dist/",
+        "workbox": "workbox generateSW workbox.config.cjs",
+        "debug": "DEBUG=Eleventy* npm start"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/lebaoquan-ai/lebaoquan-ai.github.io.git"
+    },
+    "author": "Le Bao Quan",
+    "dependencies": {
+        "@11ty/eleventy": "^3.0.0-alpha.10",
+        "@11ty/eleventy-img": "^5.0.0-beta.4",
+        "@11ty/eleventy-navigation": "^0.3.5",
+        "@11ty/eleventy-plugin-rss": "^1.2.0",
+        "@11ty/eleventy-plugin-syntaxhighlight": "^5.0.0",
+        "@babel/plugin-transform-react-jsx": "^7.24.6",
+        "@netlify/functions": "^2.4.1",
+        "@preact/preset-vite": "^2.8.2",
+        "cross-env": "^7.0.2",
+        "del-cli": "^5.1.0",
+        "dompurify": "^3.1.4",
+        "dotenv": "^16.4.5",
+        "eleventy-plugin-page-assets": "github:maxboeck/eleventy-plugin-page-assets",
+        "eleventy-plugin-share-highlight": "^0.1.4",
+        "eleventy-plugin-svg-sprite": "^2.4.2",
+        "encoding": "^0.1.13",
+        "focus-trap": "^5.1.0",
+        "html-minifier": "^4.0.0",
+        "infinite-scroll": "^4.0.0-beta.0",
+        "lodash": "^4.17.21",
+        "luxon": "^3.4.4",
+        "markdown-it": "^14.1.0",
+        "markdown-it-anchor": "^9.0.1",
+        "node-fetch": "^3.3.2",
+        "npm-run-all": "^4.1.5",
+        "preact": "^10.5.7",
+        "sanitize-html": "^2.3.0",
+        "sass": "^1.77.4",
+        "serve": "^14.2.3",
+        "sharp": "^0.33.4",
+        "svg-sprite": "^2.0.2",
+        "vite": "^5.2.12",
+        "workbox-cli": "^7.1.0"
+    }
 }
