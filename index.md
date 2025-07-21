@@ -1,3 +1,3 @@
-# Hi, I am Le Bao Quan! 
+# Hi, I am Le Bao Quan
 
-This is my personal webite
+This is my personal website
