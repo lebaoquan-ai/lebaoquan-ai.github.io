@@ -1,0 +1,24 @@
+{
+  "name": "lebaoquan-ai.github.io",
+  "version": "1.0.0",
+  "description": "1. Test with a simple index.html file",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lebaoquan-ai/lebaoquan-ai.github.io.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/lebaoquan-ai/lebaoquan-ai.github.io/issues"
+  },
+  "homepage": "https://github.com/lebaoquan-ai/lebaoquan-ai.github.io#readme",
+  "dependencies": {
+    "@11ty/eleventy": "^3.1.2"
+  }
+}
