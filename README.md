@@ -69,7 +69,9 @@ src/
     └── blog/          # Blog posts
 ```
 
-### Adding Content
+### Adding Contenon to get LSP support for GitHub Actions workflow files.
+Zed Extension CLI - The official command-line tool for creating and managing Zed extensions.
+zedtutor - An interactive tutorial to learn the Zed IDE by doing.t
 
 #### Blog Posts
 
