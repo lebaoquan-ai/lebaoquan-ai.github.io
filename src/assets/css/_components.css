@@ -1,5 +1,19 @@
 /* Component Styles */
 
+/* Header Profile Link */
+.header__profile-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.header__profile {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    cursor: pointer;
+}
+
 /* Footer Styles */
 .footer {
     background-color: var(--color-bg-offset);
@@ -53,6 +67,9 @@
     color: white;
     border-color: var(--color-primary);
     transform: translateY(-2px);
+    box-shadow:
+        0 0 20px var(--color-primary),
+        0 0 40px var(--color-primary);
 }
 
 .social-icon {
@@ -69,10 +86,10 @@
 }
 
 .social-icon--custom {
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 1rem;
+    height: 1rem;
     object-fit: contain;
-    filter: grayscale(100%) brightness(0) invert(1);
+    /* filter: grayscale(100%) brightness(0) invert(0); */
 }
 
 /* Hero Section */
@@ -163,6 +180,81 @@
     text-align: center;
 }
 
+/* Tags Section */
+.tags {
+    padding: var(--spacing-xl) 0;
+    margin-bottom: var(--spacing-3xl);
+}
+.tags__container {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-lg);
+    flex-wrap: wrap;
+}
+.tags__box {
+    display: flex;
+    background: var(--color-bg-offset);
+    border-radius: var(--border-radius-lg);
+    border: 2px solid var(--color-border);
+    padding: var(--spacing-md);
+    gap: var(--spacing-lg);
+    box-shadow: 0 5px 15px var(--shadow-color);
+    transition: all var(--transition-fast);
+}
+.tags__box:hover {
+    border-color: var(--color-primary);
+    box-shadow: 0 10px 30px var(--shadow-color);
+}
+.tags__box .tag {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+    text-decoration: none;
+    color: var(--color-text);
+    transition: all var(--transition-fast);
+    border-radius: var(--border-radius-md);
+    position: relative;
+    min-width: 80px;
+    background: transparent;
+    border: none;
+}
+.tags__box .tag:hover {
+    background: var(--color-primary);
+    color: white;
+    transform: translateY(-3px);
+}
+.tags__box .tag:hover .tag__name {
+    opacity: 1;
+    transform: translateY(0);
+}
+.tags__box .tag__icon {
+    font-size: 1.5rem;
+    margin-bottom: var(--spacing-xs);
+    font-weight: 700;
+    font-family: var(--font-family-display);
+    color: var(--color-primary);
+    transition: color var(--transition-fast);
+}
+.tags__box .tag:hover .tag__icon {
+    color: white;
+}
+.tags__box .tag__name {
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all var(--transition-fast);
+    position: absolute;
+    bottom: -5px;
+    background: var(--color-bg);
+    padding: 2px 6px;
+    border-radius: var(--border-radius-sm);
+    white-space: nowrap;
+}
+
 /* Featured Posts Section */
 .featured-posts {
     padding: var(--spacing-xl) 0;
@@ -205,6 +297,7 @@
     text-decoration: none;
     color: var(--color-text);
     display: block;
+    height: 400px;
 }
 
 .post-card:hover {
@@ -226,6 +319,11 @@
 
 .post-card__content {
     padding: var(--spacing-lg);
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
 }
 
 .post-card__title {
@@ -234,16 +332,30 @@
     margin-bottom: var(--spacing-sm);
     color: var(--color-text);
     font-family: var(--font-family-display);
+    z-index: 2;
 }
 
 .post-card__excerpt {
     color: var(--color-text-offset);
     font-size: 0.9rem;
     line-height: 1.5;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(
+        to top,
+        var(--color-bg-offset) 0%,
+        transparent 100%
+    );
+    padding: var(--spacing-lg);
+    margin: 0;
+    transform: translateY(100%);
+    transition: transform var(--transition-medium);
+    z-index: 1;
+}
+.post-card:hover .post-card__excerpt {
+    transform: translateY(0);
 }
 
 .post-card__meta {
@@ -253,6 +365,7 @@
     margin-top: var(--spacing-md);
     font-size: 0.8rem;
     color: var(--color-text-secondary);
+    z-index: 2;
 }
 
 .post-card__date {
