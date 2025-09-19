@@ -179,7 +179,7 @@ class StaticSiteGenerator {
       }
     }
 
-    // Copy placeholder images (in a real scenario, these would be actual images)
+    // Copy images from source assets
     const imageFiles = [
       "profile.jpg",
       "profile-large.jpg",
@@ -192,9 +192,17 @@ class StaticSiteGenerator {
     ];
 
     for (const file of imageFiles) {
+      const srcPath = path.join(this.srcDir, "src", "assets", "images", file);
       const destPath = path.join(this.assetsDir, "images", file);
-      // Create a placeholder image file
-      await writeFile(destPath, `Placeholder for ${file}`);
+
+      if (fs.existsSync(srcPath)) {
+        await copyFile(srcPath, destPath);
+      } else {
+        console.warn(
+          `Warning: ${file} not found in source assets, creating placeholder`,
+        );
+        await writeFile(destPath, `Placeholder for ${file}`);
+      }
     }
   }
 
