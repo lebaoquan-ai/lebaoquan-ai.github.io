@@ -221,8 +221,6 @@
     border: none;
 }
 .tags__box .tag:hover {
-    background: var(--color-primary);
-    color: white;
     transform: translateY(-3px);
 }
 .tags__box .tag:hover .tag__name {
@@ -235,10 +233,11 @@
     font-weight: 700;
     font-family: var(--font-family-display);
     color: var(--color-primary);
-    transition: color var(--transition-fast);
+    transition: all var(--transition-fast);
 }
 .tags__box .tag:hover .tag__icon {
-    color: white;
+    transform: translateY(-5px) scale(1.2);
+    color: var(--color-primary);
 }
 .tags__box .tag__name {
     font-weight: 600;
@@ -249,10 +248,11 @@
     transition: all var(--transition-fast);
     position: absolute;
     bottom: -5px;
-    background: var(--color-bg);
+    background: var(--color-bg-offset);
     padding: 2px 6px;
     border-radius: var(--border-radius-sm);
     white-space: nowrap;
+    border: 1px solid var(--color-border);
 }
 
 /* Featured Posts Section */
