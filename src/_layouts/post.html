@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en" data-theme="default">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content="{{description}}" />
+        <meta name="theme-color" content="#f7f7f9" />
+        <title>{{title}} - The Fool's Blog</title>
+        <link rel="stylesheet" href="/assets/css/style.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap"
+            rel="stylesheet"
+        />
+        <script src="/assets/js/initial-theme.js" defer></script>
+    </head>
+    <body>
+        {% include "header.html" %}
+
+        <main class="post-layout">
+            <article class="post-content">
+                <header class="post-header">
+                    <h1>{{title}}</h1>
+                    <p class="post-meta">
+                        {{date}} • {{reading_time}} min read
+                    </p>
+                    <p class="post-description">{{description}}</p>
+                    <img
+                        src="{{cover_image}}"
+                        alt="{{title}}"
+                        class="post-cover"
+                    />
+                </header>
+
+                <div class="post-body">
+                    <div class="post-main">{{content}}</div>
+
+                    <div class="post-sidebar">
+                        <div class="quotes-sidebar">{{quotes_sidebar}}</div>
+                        <div class="code-sidebar">{{code_sidebar}}</div>
+                    </div>
+                </div>
+            </article>
+        </main>
+
+        {% include "footer.html" %}
+
+        <script src="/assets/js/theme-switcher.js"></script>
+        <script src="/assets/js/main.js"></script>
+    </body>
+</html>

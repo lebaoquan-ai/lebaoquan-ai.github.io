@@ -35,4 +35,4 @@ Viết là để tập trung hơn, để nghĩ thông hơn.
 Viết là để không đánh giá xung quanh nữa, là tự vấn bản thân.
 Viết là để chia sẽ những ý tưởng.
 
-> Ideas is to share, Attention is to keep
+> Ideas to share, Attention to keep
