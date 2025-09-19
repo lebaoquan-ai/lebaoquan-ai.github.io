@@ -202,7 +202,6 @@
     transition: all var(--transition-fast);
 }
 .tags__box:hover {
-    border-color: var(--color-primary);
     box-shadow: 0 10px 30px var(--shadow-color);
 }
 .tags__box .tag {
@@ -333,6 +332,8 @@
     color: var(--color-text);
     font-family: var(--font-family-display);
     z-index: 2;
+    transition: all var(--transition-medium);
+    transform-origin: center;
 }
 
 .post-card__excerpt {
@@ -355,7 +356,12 @@
     z-index: 1;
 }
 .post-card:hover .post-card__excerpt {
-    transform: translateY(0);
+    transform: translateY(-50px);
+}
+
+.post-card:hover .post-card__title {
+    transform: translateY(-100%) rotateX(90deg);
+    opacity: 0;
 }
 
 .post-card__meta {
