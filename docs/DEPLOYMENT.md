@@ -1,171 +1,89 @@
-# Deployment Guide for The Fool's Blog
+# Deployment Guide for imafool.dev
 
-This guide will help you deploy your static blog to GitHub Pages with a custom domain.
+## Overview
+This guide explains how to deploy your static website to imafool.dev using your current GitHub repository.
 
 ## Prerequisites
+- Domain: imafool.dev
+- GitHub repository: lebaoquan-ai/lebaoquan-ai.github.io.git
+- Static site build process: `npm run build`
 
-- A GitHub account
-- A custom domain (optional)
-- Node.js installed locally
+## Deployment Options
 
-## Local Development
-
-1. Install dependencies:
-```bash
-npm install
-```
-
-2. Run the development server:
-```bash
-npm run serve
-```
-
-3. Build the site:
-```bash
-npm run build
-```
-
-The built site will be in the `dist/` directory.
-
-## GitHub Pages Deployment
-
-### Step 1: Push to GitHub
-
-1. Make sure your repository is on GitHub
-2. Commit your changes:
-```bash
-git add .
-git commit -m "Setup static blog"
-git push origin main
-```
-
-### Step 2: Configure GitHub Pages
-
-1. Go to your repository on GitHub
-2. Click on "Settings"
-3. Navigate to "Pages" in the left sidebar
-4. Under "Build and deployment", select "GitHub Actions" as the source
-
-The site will automatically deploy to: `https://your-username.github.io/your-repo-name/`
-
-### Step 3: Custom Domain Setup (Optional)
-
-1. **Update CNAME in build script:**
-   Edit `scripts/build.js` and change:
-   ```javascript
-   fs.writeFileSync(cnamePath, 'your-custom-domain.com');
+### Option 1: GitHub Pages (Recommended)
+1. **Configure GitHub Pages**:
+   ```bash
+   # Build the site
+   npm run build
+   
+   # The public/ directory contains your built site
    ```
-   Replace `your-custom-domain.com` with your actual domain.
+   
+2. **GitHub Pages Settings**:
+   - Go to repository Settings → Pages
+   - Source: Deploy from a branch
+   - Branch: main
+   - Directory: /public
+   - Custom domain: imafool.dev
 
-2. **Update GitHub Actions workflow:**
-   Edit `.github/workflows/deploy.yml` and change:
-   ```yaml
-   cname: your-custom-domain.com
-   ```
+3. **DNS Configuration**:
+   - Add CNAME record: `www.imafool.dev` → `lebaoquan-ai.github.io`
+   - Add A record: `imafool.dev` → `185.199.108.153`
+   - Add A record: `imafool.dev` → `185.199.109.153`
+   - Add A record: `imafool.dev` → `185.199.110.153`
+   - Add A record: `imafool.dev` → `185.199.111.153`
 
-3. **Configure DNS settings:**
-   - Go to your domain registrar's DNS settings
-   - Add an `A` record pointing to GitHub Pages IPs:
-     - `185.199.108.153`
-     - `185.199.109.153`
-     - `185.199.110.153`
-     - `185.199.111.153`
-   - Or add a `CNAME` record pointing to `your-username.github.io`
+### Option 2: Netlify
+1. **Connect to Netlify**:
+   - Connect your GitHub repository to Netlify
+   - Build command: `npm run build`
+   - Publish directory: `public`
 
-4. **Enable HTTPS:**
-   - After DNS propagates, GitHub Pages will automatically provision SSL certificates
-   - Enable "Enforce HTTPS" in the GitHub Pages settings
+2. **Custom Domain**:
+   - Add `imafool.dev` in Netlify domain settings
+   - Configure DNS as above
 
-## Content Management
+### Option 3: Vercel
+1. **Deploy to Vercel**:
+   - Import your GitHub repository to Vercel
+   - Build command: `npm run build`
+   - Output directory: `public`
 
-### Adding Blog Posts
+2. **Custom Domain**:
+   - Add `imafool.dev` in Vercel domain settings
+   - Configure DNS as above
 
-1. Create a new markdown file in `src/content/blog/`
-2. Use this frontmatter template:
+## Build Process
+Your site uses a custom build script that:
+1. Cleans the public directory
+2. Copies assets from src/
+3. Generates HTML from layout files
+4. Creates all necessary pages (home, blog, about)
 
-```markdown
----
-title: "Your Post Title"
-date: "YYYY-MM-DD"
-description: "Brief description of your post"
-author: "The Fool"
-coverImage: "/assets/images/your-image.jpg"
-slug: "your-post-slug"
----
+## Files to Deploy
+- `public/` directory (built site)
+- `src/` directory (source files)
+- `package.json` (dependencies)
+- `src/scripts/build.js` (build script)
 
-# Your Post Title
+## Ignored Files
+- `node_modules/`
+- `dist/`
+- Temporary files and logs
+- Development files
 
-Write your content here...
-```
+## Continuous Deployment
+For automated deployment, set up GitHub Actions or use the hosting platform's built-in CI/CD.
 
-### Adding Pages
-
-1. Create a new markdown file in `src/content/`
-2. Include appropriate frontmatter
-3. Update the build script if needed to handle the new page
-
-### Styling
-
-- Edit CSS files in `src/assets/css/`
-- Add images to `src/assets/images/`
-- Update JavaScript in `src/assets/js/`
+## Post-Deployment
+1. Test all pages: Home, Blog, About
+2. Verify theme switcher functionality
+3. Check responsive design
+4. Test social media links
+5. Verify custom Substack logo display
 
 ## Troubleshooting
-
-### Build Issues
-
-If the build fails:
-1. Check that all dependencies are installed: `npm install`
-2. Verify all markdown files have proper frontmatter
-3. Check the console for specific error messages
-
-### Deployment Issues
-
-If deployment fails:
-1. Check the GitHub Actions logs in your repository
-2. Ensure your repository is public or has GitHub Pages enabled
-3. Verify the workflow file is in `.github/workflows/deploy.yml`
-
-### Custom Domain Issues
-
-If your custom domain isn't working:
-1. Verify DNS settings are correct
-2. Wait 24-48 hours for DNS propagation
-3. Check that the CNAME file is properly generated
-4. Ensure the domain is correctly set in GitHub Pages settings
-
-## Project Structure
-
-```
-src/
-├── _layouts/          # HTML templates
-├── _includes/         # Reusable components
-├── assets/            # CSS, JS, images
-├── content/           # Markdown content
-│   ├── index.md       # Home page
-│   ├── about.md       # About page
-│   └── blog/          # Blog posts
-scripts/
-├── build.js           # Build script
-└── serve.js           # Development server
-dist/                  # Built site (generated)
-```
-
-## Features
-
-- **Static Site Generation**: Converts Markdown to HTML
-- **Multi-theme Support**: Light, Dark, Blue, Green themes
-- **Responsive Design**: Works on all devices
-- **Blog Pagination**: Automatic post listing
-- **SEO-friendly**: Clean HTML structure
-- **Fast Loading**: Optimized static files
-
-## Support
-
-If you encounter any issues:
-1. Check the console for error messages
-2. Verify all file paths are correct
-3. Ensure Node.js dependencies are up to date
-4. Review the build script for any customization needs
-
-Happy blogging! 🚀
+- Build fails: Run `npm install` first
+- Domain issues: Check DNS propagation
+- Styling issues: Verify CSS files are copied correctly
+- Broken links: Check file paths in built HTML
