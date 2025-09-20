@@ -136,5 +136,16 @@ docs/api/
 desktop.ini
 
 # Project specific
-# Keep source files, ignore generated content
-# We want to keep src/ but ignore generated public/ content
+# SOURCE-ONLY WORKFLOW FOR GITHUB PAGES
+# =====================================
+# Keep source files in src/ for local development
+# Only push built content from public/ to GitHub Pages
+
+# Ignore ALL built/compiled content
+public/
+dist/
+build/
+out/
+
+# Keep source files (don't ignore src/)
+# These are for local development only
