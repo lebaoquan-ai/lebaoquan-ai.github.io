@@ -35,6 +35,9 @@ jobs:
     ## needs: [build-pr]
     if: github.ref == 'refs/heads/main'
 
+    permissions:
+      contents: write # This grants write access to the GITHUB_TOKEN for this job
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
