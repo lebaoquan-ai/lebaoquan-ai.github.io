@@ -20,7 +20,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: "20"
           cache: npm
 
       - name: Install dependencies
@@ -30,7 +30,10 @@ jobs:
         uses: npm run build
 
   deploy:
+    name: Deploy to Github Page and personal site Imafool.dev
     runs-on: ubuntu-latest
+    needs: [build-pr]
+    if: github.ref == 'refs/heads/main'
 
     steps:
       - name: Checkout repository
@@ -39,7 +42,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "18"
+          node-version: "20"
           cache: "npm"
 
       - name: Install dependencies
@@ -49,10 +52,17 @@ jobs:
         run: npm run build
 
       - name: Deploy to GitHub Pages
-        if: github.ref == 'refs/heads/main'
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
           cname: imafool.dev
           force_orphan: true
+          # publish_branch: gh-pages # Explicitly specify the branch to deploy to
+          # For a user/organization page repo (e.g., username.github.io)
+          # GitHub Pages often serves directly from the 'main' branch's root.
+          # For a project page, it typically serves from 'gh-pages'.
+          # If your GitHub Pages settings specify 'gh-pages' as the source,
+          # uncomment the line above. If it serves from 'main', then it depends on
+          # how you want to manage the built output (in 'main' or a separate branch).
+          # For most clarity, using 'gh-pages' as the publish_branch is common.
