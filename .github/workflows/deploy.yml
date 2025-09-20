@@ -27,7 +27,7 @@ jobs:
         run: npm ci
 
       - name: Build site
-        uses: npm run build
+        run: npm run build
 
   deploy:
     name: Deploy to Github Page and personal site Imafool.dev
