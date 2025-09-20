@@ -147,5 +147,6 @@ dist/
 build/
 out/
 
-# Keep source files (don't ignore src/)
+# Keep source files (don't ignore src/) EXCEPT blog content
 # These are for local development only
+src/content/blog/
