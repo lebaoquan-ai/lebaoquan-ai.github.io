@@ -24,7 +24,7 @@ jobs:
           cache: "npm"
 
       - name: Install dependencies
-        uses: npm cpi
+        uses: npm cli
 
       - name: Build site
         uses: npm run build
