@@ -1,0 +1,577 @@
+
+<!DOCTYPE html>
+<html lang="en" data-theme="default">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Blog posts from The Fool's Blog - A personal blog about web development, technology, and life">
+    <meta name="theme-color" content="#f7f7f9">
+    <title>Blogs - The Fool's Blog</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="/assets/js/initial-theme.js" defer></script>
+</head>
+<body>
+    <header class="header">
+    <div class="header__content">
+        <div class="header__left">
+            <a
+                href="/"
+                class="header__profile-link"
+                aria-label="Go to homepage"
+            >
+                <div class="header__profile">
+                    <img
+                        src="/assets/images/imafool_pfp.png"
+                        alt="Le Bao Quan"
+                        class="header__profile-image"
+                    />
+                    <h1 class="header__title">The Fool's Blog</h1>
+                </div>
+            </a>
+        </div>
+
+        <div class="header__right">
+            <nav class="header__nav">
+                <ul class="nav__list">
+                    <li class="nav__item">
+                        <a href="/" class="nav__link">Home</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="/blog/" class="nav__link">Blogs</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="/about/" class="nav__link">About</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <button
+                class="theme-toggle"
+                aria-label="Toggle theme picker"
+                aria-expanded="false"
+            >
+                <span class="theme-toggle__icon">🎨</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<div class="theme-panel" role="dialog" aria-label="Theme selector">
+    <div class="theme-panel__header">
+        <h3>Choose Theme</h3>
+        <button class="theme-panel__close" aria-label="Close theme picker">
+            ×
+        </button>
+    </div>
+    <div class="theme-panel__grid">
+        <button
+            class="theme-option"
+            data-theme="default"
+            aria-label="Select Default theme"
+        >
+            <span class="theme-option__icon">☀️</span>
+            <span class="theme-option__name">Default</span>
+            <div class="theme-option__colors">
+                <span
+                    class="theme-color theme-color--primary"
+                    style="background-color: var(--color-primary)"
+                ></span>
+                <span
+                    class="theme-color theme-color--secondary"
+                    style="background-color: var(--color-secondary)"
+                ></span>
+                <span
+                    class="theme-color theme-color--accent"
+                    style="background-color: var(--color-accent)"
+                ></span>
+            </div>
+        </button>
+        <button
+            class="theme-option"
+            data-theme="dark"
+            aria-label="Select Dark theme"
+        >
+            <span class="theme-option__icon">🌙</span>
+            <span class="theme-option__name">Dark</span>
+            <div class="theme-option__colors">
+                <span
+                    class="theme-color theme-color--primary"
+                    style="background-color: var(--color-primary)"
+                ></span>
+                <span
+                    class="theme-color theme-color--secondary"
+                    style="background-color: var(--color-secondary)"
+                ></span>
+                <span
+                    class="theme-color theme-color--accent"
+                    style="background-color: var(--color-accent)"
+                ></span>
+            </div>
+        </button>
+        <button
+            class="theme-option"
+            data-theme="beach"
+            aria-label="Select Beach theme"
+        >
+            <div class="theme-option__colors">
+                <span
+                    class="theme-color theme-color--primary"
+                    style="background-color: #f4a261"
+                ></span>
+                <span
+                    class="theme-color theme-color--secondary"
+                    style="background-color: #e9c46a"
+                ></span>
+                <span
+                    class="theme-color theme-color--accent"
+                    style="background-color: #2a9d8f"
+                ></span>
+            </div>
+            <span class="theme-option__name">Beach</span>
+        </button>
+        <button
+            class="theme-option"
+            data-theme="choco"
+            aria-label="Select Choco theme"
+        >
+            <div class="theme-option__colors">
+                <span
+                    class="theme-color theme-color--primary"
+                    style="background-color: #6f4e37"
+                ></span>
+                <span
+                    class="theme-color theme-color--secondary"
+                    style="background-color: #d4a574"
+                ></span>
+                <span
+                    class="theme-color theme-color--accent"
+                    style="background-color: #8b4513"
+                ></span>
+            </div>
+            <span class="theme-option__name">Choco</span>
+        </button>
+        <button
+            class="theme-option"
+            data-theme="moomoo"
+            aria-label="Select Moomoo theme"
+        >
+            <div class="theme-option__colors">
+                <span
+                    class="theme-color theme-color--primary"
+                    style="background-color: #f5f5dc"
+                ></span>
+                <span
+                    class="theme-color theme-color--secondary"
+                    style="background-color: #8b7355"
+                ></span>
+                <span
+                    class="theme-color theme-color--accent"
+                    style="background-color: #654321"
+                ></span>
+            </div>
+            <span class="theme-option__name">Moomoo</span>
+        </button>
+        <button
+            class="theme-option"
+            data-theme="bowser"
+            aria-label="Select Bowser theme"
+        >
+            <div class="theme-option__colors">
+                <span
+                    class="theme-color theme-color--primary"
+                    style="background-color: #8b0000"
+                ></span>
+                <span
+                    class="theme-color theme-color--secondary"
+                    style="background-color: #daa520"
+                ></span>
+                <span
+                    class="theme-color theme-color--accent"
+                    style="background-color: #2f4f4f"
+                ></span>
+            </div>
+            <span class="theme-option__name">Bowser</span>
+        </button>
+        <button
+            class="theme-option"
+            data-theme="yoshi"
+            aria-label="Select Yoshi theme"
+        >
+            <div class="theme-option__colors">
+                <span
+                    class="theme-color theme-color--primary"
+                    style="background-color: #90ee90"
+                ></span>
+                <span
+                    class="theme-color theme-color--secondary"
+                    style="background-color: #32cd32"
+                ></span>
+                <span
+                    class="theme-color theme-color--accent"
+                    style="background-color: #228b22"
+                ></span>
+            </div>
+            <span class="theme-option__name">Yoshi</span>
+        </button>
+        <button
+            class="theme-option"
+            data-theme="rainbow"
+            aria-label="Select Rainbow theme"
+        >
+            <div class="theme-option__colors">
+                <span
+                    class="theme-color theme-color--primary"
+                    style="
+                        background: linear-gradient(
+                            45deg,
+                            #ff0000,
+                            #ff7f00,
+                            #ffff00,
+                            #00ff00,
+                            #0000ff,
+                            #8b00ff
+                        );
+                    "
+                ></span>
+                <span
+                    class="theme-color theme-color--secondary"
+                    style="
+                        background: linear-gradient(
+                            45deg,
+                            #ff69b4,
+                            #9370db,
+                            #00ced1,
+                            #32cd32
+                        );
+                    "
+                ></span>
+                <span
+                    class="theme-color theme-color--accent"
+                    style="
+                        background: linear-gradient(
+                            45deg,
+                            #ffd700,
+                            #ff6347,
+                            #9370db,
+                            #00bfff
+                        );
+                    "
+                ></span>
+            </div>
+            <span class="theme-option__name">Rainbow</span>
+        </button>
+        <button
+            class="theme-option"
+            data-theme="lobster"
+            aria-label="Select Lobster theme"
+        >
+            <div class="theme-option__colors">
+                <span
+                    class="theme-color theme-color--primary"
+                    style="background-color: #ff6347"
+                ></span>
+                <span
+                    class="theme-color theme-color--secondary"
+                    style="background-color: #ffa500"
+                ></span>
+                <span
+                    class="theme-color theme-color--accent"
+                    style="background-color: #ff4500"
+                ></span>
+            </div>
+            <span class="theme-option__name">Lobster</span>
+        </button>
+        <button
+            class="theme-option"
+            data-theme="hackernews"
+            aria-label="Select Hacker News theme"
+        >
+            <div class="theme-option__colors">
+                <span
+                    class="theme-color theme-color--primary"
+                    style="background-color: #ff6600"
+                ></span>
+                <span
+                    class="theme-color theme-color--secondary"
+                    style="background-color: #000000"
+                ></span>
+                <span
+                    class="theme-color theme-color--accent"
+                    style="background-color: #828282"
+                ></span>
+            </div>
+            <span class="theme-option__name">Hacker News</span>
+        </button>
+    </div>
+</div>
+
+
+    <main>
+        <section class="blog-list">
+            <div class="blog-list__header">
+                <h1 class="blog-list__title">All Posts</h1>
+                <p class="blog-list__subtitle">Discover my thoughts and insights on web development, technology, and life</p>
+            </div>
+
+            <div class="blog-list__container" id="blogContainer">
+                
+                <article class="blog-list__item">
+                    <div class="blog-list__content">
+                        <img src="/assets/images/blog-post-1.jpg" alt="Getting Started with Web Development" class="blog-list__image">
+                        <div class="blog-list__text">
+                            <h2 class="blog-list__title"><a href="/blog/getting-started-with-web-development/">Getting Started with Web Development</a></h2>
+                            <p class="blog-list__excerpt">A comprehensive guide to beginning your journey in web development, covering essential technologies and best practices.</p>
+                            <div class="blog-list__meta">
+                                <span class="blog-list__date">📅 September 15, 2024</span>
+                                <span class="blog-list__read-time">⏱️ 5 min read</span>
+                                <span class="blog-list__category">🏷️ Web Development</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                
+                <article class="blog-list__item">
+                    <div class="blog-list__content">
+                        <img src="/assets/images/blog-post-2.jpg" alt="JavaScript Best Practices" class="blog-list__image">
+                        <div class="blog-list__text">
+                            <h2 class="blog-list__title"><a href="/blog/javascript-best-practices/">JavaScript Best Practices</a></h2>
+                            <p class="blog-list__excerpt">Learn the most important JavaScript best practices that every developer should know to write clean, maintainable code.</p>
+                            <div class="blog-list__meta">
+                                <span class="blog-list__date">📅 September 12, 2024</span>
+                                <span class="blog-list__read-time">⏱️ 8 min read</span>
+                                <span class="blog-list__category">🏷️ JavaScript</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                
+                <article class="blog-list__item">
+                    <div class="blog-list__content">
+                        <img src="/assets/images/blog-post-3.jpg" alt="Building Responsive Layouts" class="blog-list__image">
+                        <div class="blog-list__text">
+                            <h2 class="blog-list__title"><a href="/blog/building-responsive-layouts/">Building Responsive Layouts</a></h2>
+                            <p class="blog-list__excerpt">Master the art of creating responsive web layouts that work perfectly across all devices and screen sizes.</p>
+                            <div class="blog-list__meta">
+                                <span class="blog-list__date">📅 September 10, 2024</span>
+                                <span class="blog-list__read-time">⏱️ 6 min read</span>
+                                <span class="blog-list__category">🏷️ CSS</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                
+                <article class="blog-list__item">
+                    <div class="blog-list__content">
+                        <img src="/assets/images/blog-post-4.jpg" alt="CSS Grid vs Flexbox" class="blog-list__image">
+                        <div class="blog-list__text">
+                            <h2 class="blog-list__title"><a href="/blog/css-grid-vs-flexbox/">CSS Grid vs Flexbox</a></h2>
+                            <p class="blog-list__excerpt">Explore CSS Grid and learn how to create complex, responsive layouts with ease and precision.</p>
+                            <div class="blog-list__meta">
+                                <span class="blog-list__date">📅 September 8, 2024</span>
+                                <span class="blog-list__read-time">⏱️ 7 min read</span>
+                                <span class="blog-list__category">🏷️ CSS</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                
+                <article class="blog-list__item">
+                    <div class="blog-list__content">
+                        <img src="/assets/images/blog-post-5.jpg" alt="Mastering Git Workflow" class="blog-list__image">
+                        <div class="blog-list__text">
+                            <h2 class="blog-list__title"><a href="/blog/mastering-git-workflow/">Mastering Git Workflow</a></h2>
+                            <p class="blog-list__excerpt">A deep dive into Git workflows and how to use them effectively in your development process.</p>
+                            <div class="blog-list__meta">
+                                <span class="blog-list__date">📅 September 5, 2024</span>
+                                <span class="blog-list__read-time">⏱️ 10 min read</span>
+                                <span class="blog-list__category">🏷️ Git</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                
+                <article class="blog-list__item">
+                    <div class="blog-list__content">
+                        <img src="/assets/images/blog-post-6.jpg" alt="Web Performance Optimization" class="blog-list__image">
+                        <div class="blog-list__text">
+                            <h2 class="blog-list__title"><a href="/blog/web-performance-optimization/">Web Performance Optimization</a></h2>
+                            <p class="blog-list__excerpt">Learn essential techniques to optimize your website's performance and provide a better user experience.</p>
+                            <div class="blog-list__meta">
+                                <span class="blog-list__date">📅 September 3, 2024</span>
+                                <span class="blog-list__read-time">⏱️ 12 min read</span>
+                                <span class="blog-list__category">🏷️ Performance</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                
+            </div>
+
+            <div class="blog-list__loading" id="loadingIndicator" style="display: none;">
+                <div class="loading-spinner"></div>
+                <p>Loading more posts...</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+    <div class="footer__content">
+        <div class="footer__left">
+            <p class="footer__motto">
+                Ideas is to share, Attention is to keep
+                <span class="footer__copyright">©</span>
+            </p>
+        </div>
+        <div class="footer__right">
+            <div class="footer__social">
+                <a
+                    href="https://facebook.com"
+                    class="social-link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Facebook"
+                >
+                    <span class="social-icon">f</span>
+                </a>
+                <a
+                    href="https://twitter.com"
+                    class="social-link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Twitter"
+                >
+                    <span class="social-icon">𝕏</span>
+                </a>
+                <a
+                    href="https://substack.com"
+                    class="social-link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Substack"
+                >
+                    <img
+                        src="/assets/icons/substack-custom.png"
+                        alt="Substack"
+                        class="social-icon social-icon--custom"
+                    />
+                </a>
+                <a
+                    href="mailto:contact@example.com"
+                    class="social-link"
+                    aria-label="Email"
+                >
+                    <span class="social-icon">@</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    
+    <div class="theme-panel" role="dialog" aria-label="Theme selector">
+        <div class="theme-panel__header">
+            <h3>Choose Theme</h3>
+            <button class="theme-panel__close" aria-label="Close theme picker">×</button>
+        </div>
+        <div class="theme-panel__grid">
+            <button class="theme-option" data-theme="default" aria-label="Select Default theme">
+                <span class="theme-option__icon">☀️</span>
+                <span class="theme-option__name">Default</span>
+                <div class="theme-option__colors">
+                    <span class="theme-color theme-color--primary" style="background-color: var(--color-primary)"></span>
+                    <span class="theme-color theme-color--secondary" style="background-color: var(--color-secondary)"></span>
+                    <span class="theme-color theme-color--accent" style="background-color: var(--color-accent)"></span>
+                </div>
+            </button>
+            <button class="theme-option" data-theme="dark" aria-label="Select Dark theme">
+                <span class="theme-option__icon">🌙</span>
+                <span class="theme-option__name">Dark</span>
+                <div class="theme-option__colors">
+                    <span class="theme-color theme-color--primary" style="background-color: var(--color-primary)"></span>
+                    <span class="theme-color theme-color--secondary" style="background-color: var(--color-secondary)"></span>
+                    <span class="theme-color theme-color--accent" style="background-color: var(--color-accent)"></span>
+                </div>
+            </button>
+            <button class="theme-option" data-theme="beach" aria-label="Select Beach theme">
+                <span class="theme-option__icon">🏖️</span>
+                <span class="theme-option__name">Beach</span>
+                <div class="theme-option__colors">
+                    <span class="theme-color theme-color--primary" style="background-color: var(--color-primary)"></span>
+                    <span class="theme-color theme-color--secondary" style="background-color: var(--color-secondary)"></span>
+                    <span class="theme-color theme-color--accent" style="background-color: var(--color-accent)"></span>
+                </div>
+            </button>
+            <button class="theme-option" data-theme="choco" aria-label="Select Choco theme">
+                <span class="theme-option__icon">🍫</span>
+                <span class="theme-option__name">Choco</span>
+                <div class="theme-option__colors">
+                    <span class="theme-color theme-color--primary" style="background-color: var(--color-primary)"></span>
+                    <span class="theme-color theme-color--secondary" style="background-color: var(--color-secondary)"></span>
+                    <span class="theme-color theme-color--accent" style="background-color: var(--color-accent)"></span>
+                </div>
+            </button>
+            <button class="theme-option" data-theme="moomoo" aria-label="Select Moomoo theme">
+                <span class="theme-option__icon">🐮</span>
+                <span class="theme-option__name">Moomoo</span>
+                <div class="theme-option__colors">
+                    <span class="theme-color theme-color--primary" style="background-color: var(--color-primary)"></span>
+                    <span class="theme-color theme-color--secondary" style="background-color: var(--color-secondary)"></span>
+                    <span class="theme-color theme-color--accent" style="background-color: var(--color-accent)"></span>
+                </div>
+            </button>
+            <button class="theme-option" data-theme="bowser" aria-label="Select Bowser theme">
+                <span class="theme-option__icon">👾</span>
+                <span class="theme-option__name">Bowser</span>
+                <div class="theme-option__colors">
+                    <span class="theme-color theme-color--primary" style="background-color: var(--color-primary)"></span>
+                    <span class="theme-color theme-color--secondary" style="background-color: var(--color-secondary)"></span>
+                    <span class="theme-color theme-color--accent" style="background-color: var(--color-accent)"></span>
+                </div>
+            </button>
+            <button class="theme-option" data-theme="yoshi" aria-label="Select Yoshi theme">
+                <span class="theme-option__icon">🦖</span>
+                <span class="theme-option__name">Yoshi</span>
+                <div class="theme-option__colors">
+                    <span class="theme-color theme-color--primary" style="background-color: var(--color-primary)"></span>
+                    <span class="theme-color theme-color--secondary" style="background-color: var(--color-secondary)"></span>
+                    <span class="theme-color theme-color--accent" style="background-color: var(--color-accent)"></span>
+                </div>
+            </button>
+            <button class="theme-option" data-theme="rainbow" aria-label="Select Rainbow theme">
+                <span class="theme-option__icon">🌈</span>
+                <span class="theme-option__name">Rainbow</span>
+                <div class="theme-option__colors">
+                    <span class="theme-color theme-color--primary" style="background-color: var(--color-primary)"></span>
+                    <span class="theme-color theme-color--secondary" style="background-color: var(--color-secondary)"></span>
+                    <span class="theme-color theme-color--accent" style="background-color: var(--color-accent)"></span>
+                </div>
+            </button>
+            <button class="theme-option" data-theme="lobster" aria-label="Select Lobster theme">
+                <span class="theme-option__icon">🦞</span>
+                <span class="theme-option__name">Lobster</span>
+                <div class="theme-option__colors">
+                    <span class="theme-color theme-color--primary" style="background-color: var(--color-primary)"></span>
+                    <span class="theme-color theme-color--secondary" style="background-color: var(--color-secondary)"></span>
+                    <span class="theme-color theme-color--accent" style="background-color: var(--color-accent)"></span>
+                </div>
+            </button>
+            <button class="theme-option" data-theme="hackernews" aria-label="Select Hacker News theme">
+                <span class="theme-option__icon">📰</span>
+                <span class="theme-option__name">Hacker News</span>
+                <div class="theme-option__colors">
+                    <span class="theme-color theme-color--primary" style="background-color: var(--color-primary)"></span>
+                    <span class="theme-color theme-color--secondary" style="background-color: var(--color-secondary)"></span>
+                    <span class="theme-color theme-color--accent" style="background-color: var(--color-accent)"></span>
+                </div>
+            </button>
+        </div>
+    </div>
+
+    <script src="/assets/js/theme-switcher.js"></script>
+    <script src="/assets/js/main.js"></script>
+    <script src="/assets/js/infinite-scroll.js"></script>
+</body>
+</html>
