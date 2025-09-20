@@ -58,7 +58,7 @@ jobs:
           publish_dir: ./public
           cname: imafool.dev
           force_orphan: true
-          # publish_branch: gh-pages # Explicitly specify the branch to deploy to
+          publish_branch: gh-pages # Explicitly specify the branch to deploy to
           # For a user/organization page repo (e.g., username.github.io)
           # GitHub Pages often serves directly from the 'main' branch's root.
           # For a project page, it typically serves from 'gh-pages'.
