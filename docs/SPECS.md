@@ -38,11 +38,12 @@ the layout is as follow:
   ** on the left is my Motto writing this blog: Ideas is to share, Attention is to keep (with copyright trademark icon)
 
 
-### Blogs (List of blogs)
+### Blogs
 * Each blog entry includes a title, date, cover image, and a brief excerpt
 * Blogs are displayed in a single column layout with infinite scroll (choose the best way to make loading posts fastest, prioritize user experience)
 
-* For individual post, the format is as follow:
+#### For individual post
+- the format is as follow:
 ** Title, Brief description and date, cover image
 ** use simple column the main text
 ** quotes are placed in secondary column on the left (if there's quote)

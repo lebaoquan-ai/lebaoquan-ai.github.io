@@ -3,7 +3,7 @@ title: "CSS Grid vs Flexbox: When to Use What"
 date: "2024-01-05"
 description: "Understanding the differences between CSS Grid and Flexbox and when to use each"
 author: "The Fool"
-coverImage: "/assets/images/css-grid-flexbox.jpg"
+coverImage: "/assets/images/blog-post-3.jpg"
 slug: "css-grid-vs-flexbox-when-to-use-what"
 ---
 

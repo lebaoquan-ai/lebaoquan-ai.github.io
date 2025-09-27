@@ -1,0 +1,80 @@
+[
+  {
+    "slug": "css-grid-vs-flexbox-when-to-use-what",
+    "title": "CSS Grid vs Flexbox: When to Use What",
+    "description": "Understanding the differences between CSS Grid and Flexbox and when to use each",
+    "thumbnail": {
+      "prompt": "Minimalist flat design icon representing css. Technology elements: CSS logo or styling tools. Clean geometric shapes, professional color scheme (blues, greens, or purples), simple light gray background, scalable vector style, no text. Perfect for blog thumbnail. Style: modern tech blog, minimalist, professional.",
+      "filename": "css-grid-vs-flexbox-when-to-use-what-thumbnail.png",
+      "size": "400x300",
+      "style": "minimalist, clean, professional icon",
+      "techStack": [
+        "css"
+      ],
+      "mood": "educational"
+    },
+    "cover": {
+      "prompt": "Professional blog cover image about \"css\". Modern educational aesthetic with blues and whites color palette. Clean layout featuring css technologies. . Style: contemporary tech blog, elegant design, professional presentation, soft gradient background, subtle geometric patterns, high-quality digital art, 16:9 aspect ratio, suitable for programming/technology blog.",
+      "filename": "css-grid-vs-flexbox-when-to-use-what-cover.jpg",
+      "size": "1200x630",
+      "style": "modern, elegant, high-quality blog cover",
+      "techStack": [
+        "css"
+      ],
+      "mood": "educational",
+      "complexity": "medium"
+    }
+  },
+  {
+    "slug": "understanding-javascript-closures",
+    "title": "Understanding JavaScript Closures",
+    "description": "Deep dive into one of JavaScript's most powerful concepts - closures",
+    "thumbnail": {
+      "prompt": "Minimalist flat design icon representing javascript. Technology elements: JavaScript logo or code brackets. Clean geometric shapes, professional color scheme (blues, greens, or purples), simple light gray background, scalable vector style, no text. Perfect for blog thumbnail. Style: modern tech blog, minimalist, professional.",
+      "filename": "understanding-javascript-closures-thumbnail.png",
+      "size": "400x300",
+      "style": "minimalist, clean, professional icon",
+      "techStack": [
+        "javascript"
+      ],
+      "mood": "educational"
+    },
+    "cover": {
+      "prompt": "Professional blog cover image about \"javascript\". Modern educational aesthetic with blues and whites color palette. Clean layout featuring javascript technologies. . Style: contemporary tech blog, elegant design, professional presentation, soft gradient background, subtle geometric patterns, high-quality digital art, 16:9 aspect ratio, suitable for programming/technology blog.",
+      "filename": "understanding-javascript-closures-cover.jpg",
+      "size": "1200x630",
+      "style": "modern, elegant, high-quality blog cover",
+      "techStack": [
+        "javascript"
+      ],
+      "mood": "educational",
+      "complexity": "high"
+    }
+  },
+  {
+    "slug": "getting-started-modern-web-development",
+    "title": "Getting Started with Modern Web Development",
+    "description": "A comprehensive guide to modern web development practices and tools",
+    "thumbnail": {
+      "prompt": "Minimalist flat design icon representing web development. Technology elements: Globe or browser window icon. Clean geometric shapes, professional color scheme (blues, greens, or purples), simple light gray background, scalable vector style, no text. Perfect for blog thumbnail. Style: modern tech blog, minimalist, professional.",
+      "filename": "getting-started-modern-web-development-thumbnail.png",
+      "size": "400x300",
+      "style": "minimalist, clean, professional icon",
+      "techStack": [
+        "web"
+      ],
+      "mood": "educational"
+    },
+    "cover": {
+      "prompt": "Professional blog cover image about \"web development\". Modern educational aesthetic with blues and whites color palette. Clean layout featuring web technologies. Subtle visual references to design patterns or UI components. Style: contemporary tech blog, elegant design, professional presentation, soft gradient background, subtle geometric patterns, high-quality digital art, 16:9 aspect ratio, suitable for programming/technology blog.",
+      "filename": "getting-started-modern-web-development-cover.jpg",
+      "size": "1200x630",
+      "style": "modern, elegant, high-quality blog cover",
+      "techStack": [
+        "web"
+      ],
+      "mood": "educational",
+      "complexity": "high"
+    }
+  }
+]

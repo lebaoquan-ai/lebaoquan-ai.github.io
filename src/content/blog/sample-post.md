@@ -3,7 +3,7 @@ title: "Getting Started with Modern Web Development"
 date: "2024-01-15"
 description: "A comprehensive guide to modern web development practices and tools"
 author: "The Fool"
-coverImage: "/assets/images/modern-web-dev.jpg"
+coverImage: "/assets/images/blog-post-1.jpg"
 slug: "getting-started-modern-web-development"
 ---
 

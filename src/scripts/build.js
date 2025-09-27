@@ -3,6 +3,7 @@
 const fs = require("fs");
 const path = require("path");
 const { promisify } = require("util");
+const PostProcessor = require("./post-processor");
 
 const readFile = promisify(fs.readFile);
 const writeFile = promisify(fs.writeFile);
@@ -14,80 +15,7 @@ class StaticSiteGenerator {
     this.srcDir = path.join(__dirname, "../..");
     this.publicDir = path.join(this.srcDir, "public");
     this.assetsDir = path.join(this.publicDir, "assets");
-
-    // Blog posts data (in a real scenario, this would come from markdown files)
-    this.blogPosts = [
-      {
-        slug: "getting-started-with-web-development",
-        title: "Getting Started with Web Development",
-        description:
-          "A comprehensive guide to beginning your journey in web development",
-        date: "2024-09-15",
-        readingTime: 5,
-        coverImage: "/assets/images/blog-post-1.jpg",
-        category: "Web Development",
-        excerpt:
-          "A comprehensive guide to beginning your journey in web development, covering essential technologies and best practices.",
-      },
-      {
-        slug: "javascript-best-practices",
-        title: "JavaScript Best Practices",
-        description:
-          "Learn the most important JavaScript best practices for clean code",
-        date: "2024-09-12",
-        readingTime: 8,
-        coverImage: "/assets/images/blog-post-2.jpg",
-        category: "JavaScript",
-        excerpt:
-          "Learn the most important JavaScript best practices that every developer should know to write clean, maintainable code.",
-      },
-      {
-        slug: "building-responsive-layouts",
-        title: "Building Responsive Layouts",
-        description: "Master the art of creating responsive web layouts",
-        date: "2024-09-10",
-        readingTime: 6,
-        coverImage: "/assets/images/blog-post-3.jpg",
-        category: "CSS",
-        excerpt:
-          "Master the art of creating responsive web layouts that work perfectly across all devices and screen sizes.",
-      },
-      {
-        slug: "css-grid-vs-flexbox",
-        title: "CSS Grid vs Flexbox",
-        description:
-          "Understanding when to use CSS Grid and when to use Flexbox",
-        date: "2024-09-08",
-        readingTime: 7,
-        coverImage: "/assets/images/blog-post-4.jpg",
-        category: "CSS",
-        excerpt:
-          "Explore CSS Grid and learn how to create complex, responsive layouts with ease and precision.",
-      },
-      {
-        slug: "mastering-git-workflow",
-        title: "Mastering Git Workflow",
-        description:
-          "Deep dive into Git workflows and collaboration techniques",
-        date: "2024-09-05",
-        readingTime: 10,
-        coverImage: "/assets/images/blog-post-5.jpg",
-        category: "Git",
-        excerpt:
-          "A deep dive into Git workflows and how to use them effectively in your development process.",
-      },
-      {
-        slug: "web-performance-optimization",
-        title: "Web Performance Optimization",
-        description: "Essential techniques for optimizing website performance",
-        date: "2024-09-03",
-        readingTime: 12,
-        coverImage: "/assets/images/blog-post-6.jpg",
-        category: "Performance",
-        excerpt:
-          "Learn essential techniques to optimize your website's performance and provide a better user experience.",
-      },
-    ];
+    this.postProcessor = new PostProcessor();
   }
 
   async build() {
@@ -103,11 +31,17 @@ class StaticSiteGenerator {
       // Build homepage
       await this.buildHomepage();
 
-      // Build blog pages
-      await this.buildBlogPages();
+      // Build blog pages using new post processor
+      const blogPosts = await this.postProcessor.processPosts();
+
+      // Build homepage with featured posts
+      await this.buildHomepage(blogPosts.slice(0, 6));
 
       // Build about page
       await this.buildAboutPage();
+
+      // Build 404 page
+      await this.buildNotFoundPage();
 
       console.log("✅ Build completed successfully!");
     } catch (error) {
@@ -206,7 +140,7 @@ class StaticSiteGenerator {
     }
   }
 
-  async buildHomepage() {
+  async buildHomepage(featuredPosts = []) {
     console.log("🏠 Building homepage...");
 
     // Read layout files
@@ -227,11 +161,43 @@ class StaticSiteGenerator {
       "utf8",
     );
 
+    // Generate featured posts HTML
+    const featuredPostsHTML = featuredPosts
+      .map(
+        (post) => `
+    <article class="post-card">
+        <img
+            src="/blog/${post.slug}/images/${post.slug}-thumbnail.png"
+            alt="${post.title}"
+            class="post-card__image"
+        />
+        <div class="post-card__content">
+            <h3 class="post-card__title">
+                ${post.title}
+            </h3>
+            <p class="post-card__excerpt">
+                ${post.excerpt}
+            </p>
+            <div class="post-card__meta">
+                <span class="post-card__date">📅 ${this.formatDate(post.date)}</span>
+                <span class="post-card__read-time">⏱️ ${post.readingTime || 5} min read</span>
+            </div>
+        </div>
+    </article>`,
+      )
+      .join("");
+
+    // Replace featured posts in home layout
+    const updatedHomeLayout = homeLayout.replace(
+      "{{featuredPosts}}",
+      featuredPostsHTML,
+    );
+
     // Build homepage by combining layout files
     let homepageHTML = baseLayout
       .replace('{% include "header.html" %}', header)
       .replace('{% include "footer.html" %}', footer)
-      .replace("{{content}}", homeLayout)
+      .replace("{{content}}", updatedHomeLayout)
       .replace("{{title}}", "Home")
       .replace(
         "{{description}}",
@@ -241,336 +207,200 @@ class StaticSiteGenerator {
     await writeFile(path.join(this.publicDir, "index.html"), homepageHTML);
   }
 
-  async buildBlogPages() {
-    console.log("📝 Building blog pages...");
-
-    // Build blog listing page
-    const blogListingTemplate = `
-<!DOCTYPE html>
-<html lang="en" data-theme="default">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Blog posts from The Fool's Blog - A personal blog about web development, technology, and life">
-    <meta name="theme-color" content="#f7f7f9">
-    <title>Blogs - The Fool's Blog</title>
-    <link rel="stylesheet" href="/assets/css/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="/assets/js/initial-theme.js" defer></script>
-</head>
-<body>
-    ${await this.getHeaderHTML()}
-
-    <main>
-        <section class="blog-list">
-            <div class="blog-list__header">
-                <h1 class="blog-list__title">All Posts</h1>
-                <p class="blog-list__subtitle">Discover my thoughts and insights on web development, technology, and life</p>
-            </div>
-
-            <div class="blog-list__container" id="blogContainer">
-                ${this.blogPosts
-                  .map(
-                    (post) => `
-                <article class="blog-list__item">
-                    <div class="blog-list__content">
-                        <img src="${post.coverImage}" alt="${post.title}" class="blog-list__image">
-                        <div class="blog-list__text">
-                            <h2 class="blog-list__title"><a href="/blog/${post.slug}/">${post.title}</a></h2>
-                            <p class="blog-list__excerpt">${post.excerpt}</p>
-                            <div class="blog-list__meta">
-                                <span class="blog-list__date">📅 ${this.formatDate(post.date)}</span>
-                                <span class="blog-list__read-time">⏱️ ${post.readingTime} min read</span>
-                                <span class="blog-list__category">🏷️ ${post.category}</span>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-                `,
-                  )
-                  .join("")}
-            </div>
-
-            <div class="blog-list__loading" id="loadingIndicator" style="display: none;">
-                <div class="loading-spinner"></div>
-                <p>Loading more posts...</p>
-            </div>
-        </section>
-    </main>
-
-    ${await this.getFooterHTML()}
-    ${this.getThemePanelHTML()}
-
-    <script src="/assets/js/theme-switcher.js"></script>
-    <script src="/assets/js/main.js"></script>
-    <script src="/assets/js/infinite-scroll.js"></script>
-</body>
-</html>`;
-
-    await writeFile(
-      path.join(this.publicDir, "blog", "index.html"),
-      blogListingTemplate,
-    );
-
-    // Build individual blog post pages
-    for (const post of this.blogPosts) {
-      const postDir = path.join(this.publicDir, "blog", post.slug);
-      await mkdir(postDir, { recursive: true });
-
-      const postTemplate = `
-<!DOCTYPE html>
-<html lang="en" data-theme="default">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="${post.description}">
-    <meta name="theme-color" content="#f7f7f9">
-    <title>${post.title} - The Fool's Blog</title>
-    <link rel="stylesheet" href="/assets/css/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
-    <script src="/assets/js/initial-theme.js" defer></script>
-</head>
-<body>
-    ${await this.getHeaderHTML()}
-
-    <main class="post-layout">
-        <article class="post-content">
-            <header class="post-header">
-                <h1>${post.title}</h1>
-                <p class="post-meta">📅 ${this.formatDate(post.date)} • ⏱️ ${post.readingTime} min read</p>
-                <p class="post-description">${post.description}</p>
-                <img src="${post.coverImage}" alt="${post.title}" class="post-cover">
-            </header>
-
-            <div class="post-body">
-                <div class="post-main">
-                    <h2>Introduction</h2>
-                    <p>This is a placeholder for the actual blog post content. In a real implementation, this would be populated from markdown files with full blog content, including proper formatting, code blocks, quotes, and images.</p>
-
-                    <h2>What You'll Learn</h2>
-                    <p>This article covers important concepts related to ${post.title.toLowerCase()}. The complete implementation would include:</p>
-
-                    <ul>
-                        <li>Detailed explanations and examples</li>
-                        <li>Code snippets with syntax highlighting</li>
-                        <li>Best practices and common pitfalls</li>
-                        <li>Real-world applications and case studies</li>
-                        <li>Further reading and resources</li>
-                    </ul>
-
-                    <h2>Conclusion</h2>
-                    <p>Thank you for reading! This is a simplified version of what would be a comprehensive blog post with rich content, proper formatting, and interactive elements.</p>
-
-                    <blockquote>
-                        "The best way to learn is by doing. Practice what you've learned and build amazing things!"
-                    </blockquote>
-                </div>
-
-                <div class="post-sidebar">
-                    <div class="quotes-sidebar">
-                        <blockquote class="sidebar-quote">
-                            "Learning never exhausts the mind."
-                        </blockquote>
-                        <blockquote class="sidebar-quote">
-                            "The only way to do great work is to love what you do."
-                        </blockquote>
-                        <blockquote class="sidebar-quote">
-                            "Innovation distinguishes between a leader and a follower."
-                        </blockquote>
-                    </div>
-
-                    <div class="code-sidebar">
-                        <div class="code-snippet">
-                            <h4>Example Code</h4>
-                            <pre><code>// Example snippet
-function example() {
-    console.log("Hello, World!");
-    return "This is a code example";
-}</code></pre>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </article>
-    </main>
-
-    ${await this.getFooterHTML()}
-    ${this.getThemePanelHTML()}
-
-    <script src="/assets/js/theme-switcher.js"></script>
-    <script src="/assets/js/main.js"></script>
-</body>
-</html>`;
-
-      await writeFile(path.join(postDir, "index.html"), postTemplate);
-    }
-  }
-
   async buildAboutPage() {
     console.log("👤 Building about page...");
 
-    const aboutTemplate = `
-<!DOCTYPE html>
-<html lang="en" data-theme="default">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="About Le Bao Quan - The Fool's Blog author and web developer">
-    <meta name="theme-color" content="#f7f7f9">
-    <title>About - The Fool's Blog</title>
-    <link rel="stylesheet" href="/assets/css/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="/assets/js/initial-theme.js" defer></script>
-</head>
-<body>
-    ${await this.getHeaderHTML()}
+    // Read about.md content
+    const aboutContent = await readFile(
+      path.join(this.srcDir, "src", "content", "about.md"),
+      "utf8",
+    );
 
-    <main class="about-page">
-        <section class="about-hero">
-            <div class="about-hero__content">
-                <h1 class="about-hero__title">About Me</h1>
-                <p class="about-hero__subtitle">Developer, Writer, and Lifelong Learner</p>
+    // Parse frontmatter from about.md
+    const frontmatterMatch = aboutContent.match(
+      /^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/,
+    );
+    if (!frontmatterMatch) {
+      throw new Error("Invalid about.md format - missing frontmatter");
+    }
+
+    const frontmatter = frontmatterMatch[1];
+    const content = frontmatterMatch[2];
+
+    // Parse frontmatter properties
+    const titleMatch = frontmatter.match(/title:\s*"([^"]+)"/);
+    const descriptionMatch = frontmatter.match(/description:\s*"([^"]+)"/);
+    const authorMatch = frontmatter.match(/author:\s*"([^"]+)"/);
+    const dateMatch = frontmatter.match(/date:\s*"([^"]+)"/);
+
+    const title = titleMatch ? titleMatch[1] : "About";
+    const description = descriptionMatch ? descriptionMatch[1] : "About page";
+    const author = authorMatch ? authorMatch[1] : "The Fool";
+    const date = dateMatch
+      ? dateMatch[1]
+      : new Date().toISOString().split("T")[0];
+
+    // Read layout files
+    const baseLayout = await readFile(
+      path.join(this.srcDir, "src", "_layouts", "base.html"),
+      "utf8",
+    );
+    const aboutLayout = await readFile(
+      path.join(this.srcDir, "src", "_layouts", "about.html"),
+      "utf8",
+    );
+    const header = await readFile(
+      path.join(this.srcDir, "src", "_includes", "header.html"),
+      "utf8",
+    );
+    const footer = await readFile(
+      path.join(this.srcDir, "src", "_includes", "footer.html"),
+      "utf8",
+    );
+
+    // Parse sections from content and create zigzag layout
+    const sections = this.parseAboutSections(content);
+
+    // ABOUT PAGE STRUCTURE EXPLANATION:
+    // The about page now displays section headers prominently:
+    // 1. Hero section (title and subtitle from frontmatter)
+    // 2. Content sections with visible headers positioned left/right:
+    //    - Section 1: Header on left, centered text content
+    //    - Section 2: Header on right, centered text content
+    //    - Section 3: Header centered, centered text content
+    // Each section title from ## headers becomes a prominent visual element
+
+    // Create header-based layout
+    let layoutContent = "";
+    sections.forEach((section, index) => {
+      const headerHtml = `<h2 class="about-section__header">${section.title}</h2>`;
+
+      if (index === 0) {
+        // First section: header on left, content centered
+        layoutContent += `
+          <div class="about-section about-section--header-left">
+            <div class="about-section__header-container">
+              ${headerHtml}
             </div>
-        </section>
-
-        <section class="about-intro">
-            <div class="about-intro__content">
-                <div class="about-intro__image">
-                    <img src="/assets/images/profile-large.jpg" alt="Le Bao Quan" class="about-intro__photo">
-                </div>
-                <div class="about-intro__text">
-                    <h2>Hello, I'm Le Bao Quan</h2>
-                    <p>I'm a passionate web developer and writer who believes in the power of sharing knowledge and continuous learning. My journey in tech started with curiosity and has evolved into a career where I get to build things that matter.</p>
-                    <p>When I'm not coding or writing, you can find me exploring new technologies, reading about philosophy, or working on my calisthenics practice. I believe that personal growth and professional development go hand in hand.</p>
-                    <div class="about-intro__stats">
-                        <div class="stat-item">
-                            <span class="stat-number">5+</span>
-                            <span class="stat-label">Years Experience</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-number">50+</span>
-                            <span class="stat-label">Projects Completed</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-number">100+</span>
-                            <span class="stat-label">Blog Posts</span>
-                        </div>
-                    </div>
-                </div>
+            <div class="about-section__content-centered">
+              ${section.content}
             </div>
-        </section>
-
-        <section class="about-story">
-            <div class="about-story__content">
-                <h2>My Story</h2>
-                <p>My journey into web development began during my college years when I discovered the magic of creating something from nothing but code. What started as a hobby quickly turned into a passion as I realized I could build solutions to real-world problems.</p>
-
-                <p>Over the years, I've worked with various technologies and frameworks, from vanilla JavaScript to modern React applications. Each project taught me something new, not just about coding, but about problem-solving, communication, and the importance of user experience.</p>
-
-                <div class="about-story__timeline">
-                    <div class="timeline-item">
-                        <div class="timeline-year">2019</div>
-                        <div class="timeline-content">
-                            <h3>Started Coding Journey</h3>
-                            <p>Began learning HTML, CSS, and JavaScript. Built my first static website.</p>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-year">2020</div>
-                        <div class="timeline-content">
-                            <h3>First Professional Project</h3>
-                            <p>Worked on a real-world project for a local business. Learned about version control and collaboration.</p>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-year">2021</div>
-                        <div class="timeline-content">
-                            <h3>Full-Stack Development</h3>
-                            <p>Expanded skills to include backend development with Node.js and databases.</p>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-year">2022</div>
-                        <div class="timeline-content">
-                            <h3>Started The Fool's Blog</h3>
-                            <p>Launched this blog to share my learning journey and help others in the tech community.</p>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-year">2023</div>
-                        <div class="timeline-content">
-                            <h3>Focus on Performance</h3>
-                            <p>Specialized in web performance optimization and accessibility best practices.</p>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-year">2024</div>
-                        <div class="timeline-content">
-                            <h3>Continuous Learning</h3>
-                            <p>Exploring AI integration, modern frameworks, and sharing knowledge through teaching.</p>
-                        </div>
-                    </div>
-                </div>
+          </div>`;
+      } else if (index === sections.length - 1) {
+        // Last section: header centered, content centered
+        layoutContent += `
+          <div class="about-section about-section--header-center">
+            <div class="about-section__header-container about-section__header-container--center">
+              ${headerHtml}
             </div>
-        </section>
-
-        <section class="about-contact">
-            <div class="about-contact__content">
-                <h2>Let's Connect</h2>
-                <p>I'm always interested in connecting with fellow developers, writers, and learners. Whether you want to collaborate on a project, discuss ideas, or just say hello, feel free to reach out!</p>
-
-                <div class="contact-methods">
-                    <div class="contact-method">
-                        <span class="contact-icon">📧</span>
-                        <div class="contact-info">
-                            <h4>Email</h4>
-                            <a href="mailto:contact@example.com">contact@example.com</a>
-                        </div>
-                    </div>
-                    <div class="contact-method">
-                        <span class="contact-icon">🐦</span>
-                        <div class="contact-info">
-                            <h4>Twitter</h4>
-                            <a href="https://twitter.com/lebaoquan" target="_blank" rel="noopener noreferrer">@lebaoquan</a>
-                        </div>
-                    </div>
-                    <div class="contact-method">
-                        <span class="contact-icon">💼</span>
-                        <div class="contact-info">
-                            <h4>LinkedIn</h4>
-                            <a href="https://linkedin.com/in/lebaoquan" target="_blank" rel="noopener noreferrer">lebaoquan</a>
-                        </div>
-                    </div>
-                    <div class="contact-method">
-                        <span class="contact-icon">📝</span>
-                        <div class="contact-info">
-                            <h4>Substack</h4>
-                            <a href="https://lebaoquan.substack.com" target="_blank" rel="noopener noreferrer">lebaoquan.substack.com</a>
-                        </div>
-                    </div>
-                </div>
+            <div class="about-section__content-centered">
+              ${section.content}
             </div>
-        </section>
-    </main>
+          </div>`;
+      } else {
+        // Middle sections: header on right, content centered
+        layoutContent += `
+          <div class="about-section about-section--header-right">
+            <div class="about-section__content-centered">
+              ${section.content}
+            </div>
+            <div class="about-section__header-container">
+              ${headerHtml}
+            </div>
+          </div>`;
+      }
+    });
 
-    ${await this.getFooterHTML()}
-    ${this.getThemePanelHTML()}
+    // Replace template variables in about layout
+    const processedAboutLayout = aboutLayout
+      .replace("{{title}}", title)
+      .replace("{{description}}", description)
+      .replace("{{content}}", layoutContent);
 
-    <script src="/assets/js/theme-switcher.js"></script>
-    <script src="/assets/js/main.js"></script>
-</body>
-</html>`;
+    // Build final about page
+    let aboutHTML = baseLayout
+      .replace('{% include "header.html" %}', header)
+      .replace('{% include "footer.html" %}', footer)
+      .replace("{{content}}", processedAboutLayout)
+      .replace("{{title}}", title)
+      .replace("{{description}}", description);
 
     await writeFile(
       path.join(this.publicDir, "about", "index.html"),
-      aboutTemplate,
+      aboutHTML,
     );
+  }
+
+  parseAboutSections(content) {
+    // SECTION PARSING LOGIC:
+    // This method splits the about.md content into sections based on ## headers
+    // Example about.md structure:
+    //   # A Fool's Blog (ignored - main title)
+    //   ## Section 1 Header -> becomes section 1
+    //   Content for section 1...
+    //   ## Section 2 Header -> becomes section 2
+    //   Content for section 2...
+
+    const lines = content.split("\n");
+    const sections = [];
+    let currentSection = { title: "", content: "" };
+
+    for (const line of lines) {
+      const h2Match = line.match(/^##\s+(.+)$/);
+
+      if (h2Match) {
+        // Save previous section if it has content
+        if (currentSection.content.trim()) {
+          sections.push({ ...currentSection });
+        }
+
+        // Start new section with the header title
+        currentSection = {
+          title: h2Match[1],
+          content: "",
+        };
+      } else {
+        // Add line to current section (skip the main # title)
+        if (line.trim() && !line.startsWith("# ")) {
+          if (currentSection.content) {
+            currentSection.content += "\n";
+          }
+          currentSection.content += line;
+        }
+      }
+    }
+
+    // Add the last section
+    if (currentSection.content.trim()) {
+      sections.push(currentSection);
+    }
+
+    // Convert markdown to HTML for each section
+    return sections.map((section) => ({
+      title: section.title,
+      content: this.convertMarkdownToHTML(section.content),
+    }));
+  }
+
+  convertMarkdownToHTML(markdown) {
+    return markdown
+      .replace(/^# (.*$)/gim, '<h1 class="about-heading">$1</h1>')
+      .replace(/^## (.*$)/gim, '<h2 class="about-subheading">$1</h2>')
+      .replace(/^### (.*$)/gim, '<h3 class="about-section">$1</h3>')
+      .replace(/^\* (.*$)/gim, '<li class="about-list-item">$1</li>')
+      .replace(/\n\n/gim, '</p><p class="about-paragraph">')
+      .replace(/^(?!<[h|l])/gim, '<p class="about-paragraph">')
+      .replace(/$/gim, "</p>")
+      .replace(/<p class="about-paragraph"><\/p>/g, "")
+      .replace(
+        /<li class="about-list-item">(.*?)<\/li>/g,
+        '<ul class="about-list"><li class="about-list-item">$1</li></ul>',
+      )
+      .replace(/<\/ul>\s*<ul class="about-list">/g, "")
+      .replace(
+        /<blockquote>\s*<p class="about-paragraph">(.*?)<\/p>\s*<\/blockquote>/g,
+        '<blockquote class="about-quote">$1</blockquote>',
+      );
   }
 
   async getHeaderHTML() {
@@ -697,9 +527,43 @@ function example() {
       day: "numeric",
     });
   }
+
+  async buildNotFoundPage() {
+    console.log("🚫 Building 404 page...");
+
+    // Read layout files
+    const baseLayout = await readFile(
+      path.join(this.srcDir, "src", "_layouts", "base.html"),
+      "utf8",
+    );
+    const notFoundLayout = await readFile(
+      path.join(this.srcDir, "src", "_layouts", "404.html"),
+      "utf8",
+    );
+    const header = await readFile(
+      path.join(this.srcDir, "src", "_includes", "header.html"),
+      "utf8",
+    );
+    const footer = await readFile(
+      path.join(this.srcDir, "src", "_includes", "footer.html"),
+      "utf8",
+    );
+
+    // Build 404 page by combining layout files
+    let notFoundHTML = baseLayout
+      .replace('{% include "header.html" %}', header)
+      .replace('{% include "footer.html" %}', footer)
+      .replace("{{content}}", notFoundLayout)
+      .replace("{{title}}", "404 - Page Not Found")
+      .replace(
+        "{{description}}",
+        "The page you're looking for doesn't exist. Return to The Fool's Blog homepage.",
+      );
+
+    await writeFile(path.join(this.publicDir, "404.html"), notFoundHTML);
+  }
 }
 
-// Run the build process
 if (require.main === module) {
   const generator = new StaticSiteGenerator();
   generator.build();

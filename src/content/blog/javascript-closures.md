@@ -3,7 +3,7 @@ title: "Understanding JavaScript Closures"
 date: "2024-01-10"
 description: "Deep dive into one of JavaScript's most powerful concepts - closures"
 author: "The Fool"
-coverImage: "/assets/images/javascript-closures.jpg"
+coverImage: "/assets/images/blog-post-2.jpg"
 slug: "understanding-javascript-closures"
 ---
 
