@@ -1,0 +1,731 @@
+
+<!DOCTYPE html>
+<html lang="en" data-theme="default">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Understanding the differences between CSS Grid and Flexbox and when to use each">
+    <meta name="theme-color" content="#f7f7f9">
+    <title>CSS Grid vs Flexbox: When to Use What - The Fool's Blog</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <script src="/assets/js/initial-theme.js" defer></script>
+    <meta property="og:title" content="CSS Grid vs Flexbox: When to Use What">
+    <meta property="og:description" content="Understanding the differences between CSS Grid and Flexbox and when to use each">
+    <meta property="og:image" content="/blog/css-grid-vs-flexbox-when-to-use-what/css-grid-vs-flexbox-when-to-use-what-cover.jpg">
+    <meta property="og:url" content="/blog/css-grid-vs-flexbox-when-to-use-what/">
+    <meta property="og:type" content="article">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="CSS Grid vs Flexbox: When to Use What">
+    <meta name="twitter:description" content="Understanding the differences between CSS Grid and Flexbox and when to use each">
+    <meta name="twitter:image" content="/blog/css-grid-vs-flexbox-when-to-use-what/css-grid-vs-flexbox-when-to-use-what-cover.jpg">
+</head>
+<body>
+    <header class="header">
+    <div class="header__content">
+        <div class="header__left">
+            <a
+                href="/"
+                class="header__profile-link"
+                aria-label="Go to homepage"
+            >
+                <div class="header__profile">
+                    <img
+                        src="/assets/images/imafool_pfp.png"
+                        alt="Le Bao Quan"
+                        class="header__profile-image"
+                    />
+                    <h1 class="header__title">The Fool's Blog</h1>
+                </div>
+            </a>
+        </div>
+
+        <div class="header__right">
+            <nav class="header__nav">
+                <ul class="nav__list">
+                    <li class="nav__item">
+                        <a href="/" class="nav__link">Home</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="/blog/" class="nav__link">Blogs</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="/about/" class="nav__link">About</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <button
+                class="theme-toggle"
+                aria-label="Toggle theme picker"
+                aria-expanded="false"
+            >
+                <span class="theme-toggle__icon">🎨</span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<div class="theme-panel" role="dialog" aria-label="Theme selector">
+    <div class="theme-panel__header">
+        <h3>Choose Theme</h3>
+        <button class="theme-panel__close" aria-label="Close theme picker">
+            ×
+        </button>
+    </div>
+    <div class="theme-panel__grid">
+        <button
+            class="theme-option"
+            data-theme="default"
+            aria-label="Select Default theme"
+        >
+            <span class="theme-option__icon">☀️</span>
+            <span class="theme-option__name">Default</span>
+            <div class="theme-option__colors">
+                <span
+                    class="theme-color theme-color--primary"
+                    style="background-color: var(--color-primary)"
+                ></span>
+                <span
+                    class="theme-color theme-color--secondary"
+                    style="background-color: var(--color-secondary)"
+                ></span>
+                <span
+                    class="theme-color theme-color--accent"
+                    style="background-color: var(--color-accent)"
+                ></span>
+            </div>
+        </button>
+        <button
+            class="theme-option"
+            data-theme="dark"
+            aria-label="Select Dark theme"
+        >
+            <span class="theme-option__icon">🌙</span>
+            <span class="theme-option__name">Dark</span>
+            <div class="theme-option__colors">
+                <span
+                    class="theme-color theme-color--primary"
+                    style="background-color: var(--color-primary)"
+                ></span>
+                <span
+                    class="theme-color theme-color--secondary"
+                    style="background-color: var(--color-secondary)"
+                ></span>
+                <span
+                    class="theme-color theme-color--accent"
+                    style="background-color: var(--color-accent)"
+                ></span>
+            </div>
+        </button>
+        <button
+            class="theme-option"
+            data-theme="beach"
+            aria-label="Select Beach theme"
+        >
+            <div class="theme-option__colors">
+                <span
+                    class="theme-color theme-color--primary"
+                    style="background-color: #f4a261"
+                ></span>
+                <span
+                    class="theme-color theme-color--secondary"
+                    style="background-color: #e9c46a"
+                ></span>
+                <span
+                    class="theme-color theme-color--accent"
+                    style="background-color: #2a9d8f"
+                ></span>
+            </div>
+            <span class="theme-option__name">Beach</span>
+        </button>
+        <button
+            class="theme-option"
+            data-theme="choco"
+            aria-label="Select Choco theme"
+        >
+            <div class="theme-option__colors">
+                <span
+                    class="theme-color theme-color--primary"
+                    style="background-color: #6f4e37"
+                ></span>
+                <span
+                    class="theme-color theme-color--secondary"
+                    style="background-color: #d4a574"
+                ></span>
+                <span
+                    class="theme-color theme-color--accent"
+                    style="background-color: #8b4513"
+                ></span>
+            </div>
+            <span class="theme-option__name">Choco</span>
+        </button>
+        <button
+            class="theme-option"
+            data-theme="moomoo"
+            aria-label="Select Moomoo theme"
+        >
+            <div class="theme-option__colors">
+                <span
+                    class="theme-color theme-color--primary"
+                    style="background-color: #f5f5dc"
+                ></span>
+                <span
+                    class="theme-color theme-color--secondary"
+                    style="background-color: #8b7355"
+                ></span>
+                <span
+                    class="theme-color theme-color--accent"
+                    style="background-color: #654321"
+                ></span>
+            </div>
+            <span class="theme-option__name">Moomoo</span>
+        </button>
+        <button
+            class="theme-option"
+            data-theme="bowser"
+            aria-label="Select Bowser theme"
+        >
+            <div class="theme-option__colors">
+                <span
+                    class="theme-color theme-color--primary"
+                    style="background-color: #8b0000"
+                ></span>
+                <span
+                    class="theme-color theme-color--secondary"
+                    style="background-color: #daa520"
+                ></span>
+                <span
+                    class="theme-color theme-color--accent"
+                    style="background-color: #2f4f4f"
+                ></span>
+            </div>
+            <span class="theme-option__name">Bowser</span>
+        </button>
+        <button
+            class="theme-option"
+            data-theme="yoshi"
+            aria-label="Select Yoshi theme"
+        >
+            <div class="theme-option__colors">
+                <span
+                    class="theme-color theme-color--primary"
+                    style="background-color: #90ee90"
+                ></span>
+                <span
+                    class="theme-color theme-color--secondary"
+                    style="background-color: #32cd32"
+                ></span>
+                <span
+                    class="theme-color theme-color--accent"
+                    style="background-color: #228b22"
+                ></span>
+            </div>
+            <span class="theme-option__name">Yoshi</span>
+        </button>
+        <button
+            class="theme-option"
+            data-theme="rainbow"
+            aria-label="Select Rainbow theme"
+        >
+            <div class="theme-option__colors">
+                <span
+                    class="theme-color theme-color--primary"
+                    style="
+                        background: linear-gradient(
+                            45deg,
+                            #ff0000,
+                            #ff7f00,
+                            #ffff00,
+                            #00ff00,
+                            #0000ff,
+                            #8b00ff
+                        );
+                    "
+                ></span>
+                <span
+                    class="theme-color theme-color--secondary"
+                    style="
+                        background: linear-gradient(
+                            45deg,
+                            #ff69b4,
+                            #9370db,
+                            #00ced1,
+                            #32cd32
+                        );
+                    "
+                ></span>
+                <span
+                    class="theme-color theme-color--accent"
+                    style="
+                        background: linear-gradient(
+                            45deg,
+                            #ffd700,
+                            #ff6347,
+                            #9370db,
+                            #00bfff
+                        );
+                    "
+                ></span>
+            </div>
+            <span class="theme-option__name">Rainbow</span>
+        </button>
+        <button
+            class="theme-option"
+            data-theme="lobster"
+            aria-label="Select Lobster theme"
+        >
+            <div class="theme-option__colors">
+                <span
+                    class="theme-color theme-color--primary"
+                    style="background-color: #ff6347"
+                ></span>
+                <span
+                    class="theme-color theme-color--secondary"
+                    style="background-color: #ffa500"
+                ></span>
+                <span
+                    class="theme-color theme-color--accent"
+                    style="background-color: #ff4500"
+                ></span>
+            </div>
+            <span class="theme-option__name">Lobster</span>
+        </button>
+        <button
+            class="theme-option"
+            data-theme="hackernews"
+            aria-label="Select Hacker News theme"
+        >
+            <div class="theme-option__colors">
+                <span
+                    class="theme-color theme-color--primary"
+                    style="background-color: #ff6600"
+                ></span>
+                <span
+                    class="theme-color theme-color--secondary"
+                    style="background-color: #000000"
+                ></span>
+                <span
+                    class="theme-color theme-color--accent"
+                    style="background-color: #828282"
+                ></span>
+            </div>
+            <span class="theme-option__name">Hacker News</span>
+        </button>
+    </div>
+</div>
+
+
+    <main class="post-layout">
+        <article class="post-content">
+            <header class="post-header">
+                <div class="post-header__content">
+                    <div class="post-header__text">
+                        <h1>CSS Grid vs Flexbox: When to Use What</h1>
+                        <p class="post-meta">📅 January 5, 2024 • ⏱️ 5 min read</p>
+                        <p class="post-description">Understanding the differences between CSS Grid and Flexbox and when to use each</p>
+                        <div class="post-tags">
+                            
+                        </div>
+                    </div>
+                    <div class="post-header__image">
+                        <img src="/blog/css-grid-vs-flexbox-when-to-use-what/css-grid-vs-flexbox-when-to-use-what-thumbnail.png" alt="CSS Grid vs Flexbox: When to Use What" class="post-thumbnail">
+                    </div>
+                </div>
+                <img src="/blog/css-grid-vs-flexbox-when-to-use-what/css-grid-vs-flexbox-when-to-use-what-cover.jpg" alt="CSS Grid vs Flexbox: When to Use What" class="post-cover">
+            </header>
+
+            <div class="post-body">
+                <div class="post-main">
+                    <div class="post-content-wrapper">
+                        <h1>CSS Grid vs Flexbox: When to Use What</h1><p>CSS Grid and Flexbox are two powerful layout systems in CSS. While they might seem similar at first glance, they're designed for different purposes. Understanding when to use each is crucial for modern web development.</p><h2>The Core Difference</h2><p>- <strong>CSS Grid</strong>: Two-dimensional layout system (rows and columns)
+- <strong>Flexbox</strong>: One-dimensional layout system (row or column)</p><h2>CSS Grid: The Layout Specialist</h2><p>CSS Grid excels at creating complex layouts with multiple rows and columns.</p><p><h3>When to Use Grid:</h3>
+- <strong>Page layouts</strong>: Header, sidebar, main content, footer
+- <strong>Card grids</strong>: Pinterest-style layouts
+- <strong>Dashboard layouts</strong>: Complex UI with multiple sections
+- <strong>Image galleries</strong>: Irregular grid layouts</p><h3>Example: Basic Grid Layout</h3><p><code></code>`css
+.container {
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+        "header header header"
+        "sidebar main aside"
+        "footer footer footer";
+    gap: 20px;
+    height: 100vh;
+}</p><p>.header { grid-area: header; }
+.sidebar { grid-area: sidebar; }
+.main { grid-area: main; }
+.aside { grid-area: aside; }
+.footer { grid-area: footer; }
+<code></code>`</p><h3>Advanced Grid Features</h3><p><code></code>`css
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}</p><p>/<em> Responsive grid </em>/
+.responsive-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-auto-rows: minmax(200px, auto);
+}
+<code></code>`</p><h2>Flexbox: The Alignment Expert</h2><p>Flexbox is perfect for arranging items in a single dimension.</p><p><h3>When to Use Flexbox:</h3>
+- <strong>Navigation bars</strong>: Horizontal or vertical menu items
+- <strong>Form elements</strong>: Aligning inputs and labels
+- <strong>Centering content</strong>: Both horizontally and vertically
+- <strong>Card components</strong>: Distributing items within a card</p><h3>Example: Navigation Bar</h3><p><code></code>`css
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: #f0f0f0;
+}</p><p>.nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+}
+<code></code>`</p><h3>Flexbox for Form Alignment</h3><p><code></code>`css
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}</p><p>.form-row {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-end;
+}</p><p>.form-row .form-group {
+    flex: 1;
+}
+<code></code>`</p><h2>Combining Grid and Flexbox</h2><p>The real power comes from combining both systems:</p><p><code></code>`css
+/<em> Grid for overall layout </em>/
+.page-layout {
+    display: grid;
+    grid-template-areas:
+        "header header"
+        "sidebar main"
+        "footer footer";
+    grid-template-columns: 250px 1fr;
+    grid-template-rows: auto 1fr auto;
+    min-height: 100vh;
+}</p><p>/<em> Flexbox for component internal layout </em>/
+.card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}</p><p>.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}</p><p>.card-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}</p><p>.card-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+<code></code>`</p><h2>Practical Examples</h2><h3>1. Responsive Sidebar</h3><p><code></code>`css
+.sidebar-layout {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: 2rem;
+}</p><p>@media (max-width: 768px) {
+    .sidebar-layout {
+        grid-template-columns: 1fr;
+    }
+    
+    .sidebar {
+        display: none; /<em> Or use a hamburger menu </em>/
+    }
+}
+<code></code>`</p><h3>2. Product Card</h3><p><code></code>`css
+.product-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}</p><p>.product-image {
+    height: 200px;
+    object-fit: cover;
+}</p><p>.product-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+}</p><p>.product-title {
+    margin-bottom: 0.5rem;
+}</p><p>.product-price {
+    margin-top: auto;
+    font-weight: bold;
+    font-size: 1.2rem;
+}</p><p>.product-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+<code></code>`</p><h3>3. Complex Dashboard</h3><p><code></code>`css
+.dashboard {
+    display: grid;
+    grid-template-columns: 200px 1fr 300px;
+    grid-template-rows: 60px 1fr 60px;
+    gap: 1rem;
+    height: 100vh;
+}</p><p>.dashboard-header {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+}</p><p>.widget {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}</p><p>.widget-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}</p><p>.widget-content {
+    flex: 1;
+}
+<code></code>`</p><h2>Browser Support</h2><p>Both CSS Grid and Flexbox are well-supported in modern browsers:</p><p>- <strong>Flexbox</strong>: Supported in all modern browsers (since 2017)
+- <strong>CSS Grid</strong>: Supported in all modern browsers (since 2017)</p><p><code></code>`css
+/<em> Fallback for older browsers </em>/
+@supports not (display: grid) {
+    .grid-layout {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    
+    .grid-item {
+        flex: 1 0 300px;
+        margin: 10px;
+    }
+}
+<code></code>`</p><h2>Performance Considerations</h2><p>1. <strong>Grid</strong>: Generally more performant for complex layouts
+2. <strong>Flexbox</strong>: Excellent for dynamic content and alignment
+3. <strong>Combined</strong>: Use Grid for structure, Flexbox for components</p><h2>Common Mistakes</h2><p>1. <strong>Using Grid for simple centering</strong>: Flexbox is simpler
+2. <strong>Using Flexbox for complex layouts</strong>: Grid is more appropriate
+3. <strong>Nesting too deeply</strong>: Keep your layout simple and maintainable
+4. <strong>Ignoring browser support</strong>: Use feature queries for fallbacks</p><h2>Conclusion</h2><p>CSS Grid and Flexbox are not competitors - they're complementary tools. Use Grid for page-level layouts and complex two-dimensional designs. Use Flexbox for component-level alignment and one-dimensional layouts.</p><p>The best approach is to:
+- <strong>Plan your layout structure</strong> with Grid
+- <strong>Use Flexbox for component alignment</strong>
+- <strong>Combine both</strong> for optimal results
+- <strong>Keep it simple</strong> and maintainable</p><p>Remember: the right tool for the right job! 🛠️</p>
+
+                        
+
+                        
+                        <div class="post-quotes-section">
+                            <h3>Key Insights</h3>
+                            <blockquote class="sidebar-quote">"Grid is for layout, Flexbox is for alignment."</blockquote>
+                        </div>
+                        
+                    </div>
+
+                    
+                <aside class="post-sidebar">
+                    
+                    <div class="quotes-sidebar">
+                        <h4>💡 Key Quotes</h4>
+                        <blockquote class="sidebar-quote">"Grid is for layout, Flexbox is for alignment."</blockquote>
+                    </div>
+                    
+                    
+                </aside>
+                
+                </div>
+            </div>
+
+            <footer class="post-footer">
+                <div class="post-navigation">
+                    <div class="post-nav-prev">
+                        <a href="/blog/">← Back to all posts</a>
+                    </div>
+                    <div class="post-share">
+                        <h4>Share this post</h4>
+                        <div class="share-buttons">
+                            <a href="https://twitter.com/intent/tweet?text=CSS%20Grid%20vs%20Flexbox%3A%20When%20to%20Use%20What&url=https%3A%2F%2Flebaoquan.dev%2Fblog%2Fcss-grid-vs-flexbox-when-to-use-what%2F" target="_blank" rel="noopener" class="share-button share-twitter">🐦 Twitter</a>
+                            <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Flebaoquan.dev%2Fblog%2Fcss-grid-vs-flexbox-when-to-use-what%2F" target="_blank" rel="noopener" class="share-button share-linkedin">💼 LinkedIn</a>
+                            <a href="https://github.com/lebaoquan?tab=repositories" target="_blank" rel="noopener" class="share-button share-github">🐙 GitHub</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="post-author">
+                    <img src="/assets/images/profile.jpg" alt="The Fool" class="author-avatar">
+                    <div class="author-info">
+                        <h4>About the author</h4>
+                        <p>The Fool</p>
+                        <p>Passionate developer sharing insights on web development and technology.</p>
+                    </div>
+                </div>
+            </footer>
+        </article>
+    </main>
+
+    <footer class="footer">
+    <div class="footer__content">
+        <div class="footer__left">
+            <p class="footer__motto">
+                Ideas to share, Attention to keep
+                <span class="footer__copyright">©</span>
+            </p>
+        </div>
+        <div class="footer__right">
+            <div class="footer__social">
+                <a
+                    href="https://facebook.com"
+                    class="social-link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Facebook"
+                >
+                    <span class="social-icon">f</span>
+                </a>
+                <a
+                    href="https://twitter.com"
+                    class="social-link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Twitter"
+                >
+                    <span class="social-icon">𝕏</span>
+                </a>
+                <a
+                    href="https://substack.com"
+                    class="social-link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Substack"
+                >
+                    <img
+                        src="/assets/icons/substack-custom.png"
+                        alt="Substack"
+                        class="social-icon social-icon--custom"
+                    />
+                </a>
+                <a
+                    href="mailto:contact@example.com"
+                    class="social-link"
+                    aria-label="Email"
+                >
+                    <span class="social-icon">@</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    
+    <div class="theme-panel" role="dialog" aria-label="Theme selector">
+        <div class="theme-panel__header">
+            <h3>Choose Theme</h3>
+            <button class="theme-panel__close" aria-label="Close theme picker">×</button>
+        </div>
+        <div class="theme-panel__grid">
+            <button class="theme-option" data-theme="default" aria-label="Select Default theme">
+                <span class="theme-option__icon">☀️</span>
+                <span class="theme-option__name">Default</span>
+                <div class="theme-option__colors">
+                    <span class="theme-color theme-color--primary" style="background-color: var(--color-primary)"></span>
+                    <span class="theme-color theme-color--secondary" style="background-color: var(--color-secondary)"></span>
+                    <span class="theme-color theme-color--accent" style="background-color: var(--color-accent)"></span>
+                </div>
+            </button>
+            <button class="theme-option" data-theme="dark" aria-label="Select Dark theme">
+                <span class="theme-option__icon">🌙</span>
+                <span class="theme-option__name">Dark</span>
+                <div class="theme-option__colors">
+                    <span class="theme-color theme-color--primary" style="background-color: var(--color-primary)"></span>
+                    <span class="theme-color theme-color--secondary" style="background-color: var(--color-secondary)"></span>
+                    <span class="theme-color theme-color--accent" style="background-color: var(--color-accent)"></span>
+                </div>
+            </button>
+            <button class="theme-option" data-theme="beach" aria-label="Select Beach theme">
+                <span class="theme-option__icon">🏖️</span>
+                <span class="theme-option__name">Beach</span>
+                <div class="theme-option__colors">
+                    <span class="theme-color theme-color--primary" style="background-color: var(--color-primary)"></span>
+                    <span class="theme-color theme-color--secondary" style="background-color: var(--color-secondary)"></span>
+                    <span class="theme-color theme-color--accent" style="background-color: var(--color-accent)"></span>
+                </div>
+            </button>
+            <button class="theme-option" data-theme="choco" aria-label="Select Choco theme">
+                <span class="theme-option__icon">🍫</span>
+                <span class="theme-option__name">Choco</span>
+                <div class="theme-option__colors">
+                    <span class="theme-color theme-color--primary" style="background-color: var(--color-primary)"></span>
+                    <span class="theme-color theme-color--secondary" style="background-color: var(--color-secondary)"></span>
+                    <span class="theme-color theme-color--accent" style="background-color: var(--color-accent)"></span>
+                </div>
+            </button>
+            <button class="theme-option" data-theme="moomoo" aria-label="Select Moomoo theme">
+                <span class="theme-option__icon">🐮</span>
+                <span class="theme-option__name">Moomoo</span>
+                <div class="theme-option__colors">
+                    <span class="theme-color theme-color--primary" style="background-color: var(--color-primary)"></span>
+                    <span class="theme-color theme-color--secondary" style="background-color: var(--color-secondary)"></span>
+                    <span class="theme-color theme-color--accent" style="background-color: var(--color-accent)"></span>
+                </div>
+            </button>
+            <button class="theme-option" data-theme="bowser" aria-label="Select Bowser theme">
+                <span class="theme-option__icon">👾</span>
+                <span class="theme-option__name">Bowser</span>
+                <div class="theme-option__colors">
+                    <span class="theme-color theme-color--primary" style="background-color: var(--color-primary)"></span>
+                    <span class="theme-color theme-color--secondary" style="background-color: var(--color-secondary)"></span>
+                    <span class="theme-color theme-color--accent" style="background-color: var(--color-accent)"></span>
+                </div>
+            </button>
+            <button class="theme-option" data-theme="yoshi" aria-label="Select Yoshi theme">
+                <span class="theme-option__icon">🦖</span>
+                <span class="theme-option__name">Yoshi</span>
+                <div class="theme-option__colors">
+                    <span class="theme-color theme-color--primary" style="background-color: var(--color-primary)"></span>
+                    <span class="theme-color theme-color--secondary" style="background-color: var(--color-secondary)"></span>
+                    <span class="theme-color theme-color--accent" style="background-color: var(--color-accent)"></span>
+                </div>
+            </button>
+            <button class="theme-option" data-theme="rainbow" aria-label="Select Rainbow theme">
+                <span class="theme-option__icon">🌈</span>
+                <span class="theme-option__name">Rainbow</span>
+                <div class="theme-option__colors">
+                    <span class="theme-color theme-color--primary" style="background-color: var(--color-primary)"></span>
+                    <span class="theme-color theme-color--secondary" style="background-color: var(--color-secondary)"></span>
+                    <span class="theme-color theme-color--accent" style="background-color: var(--color-accent)"></span>
+                </div>
+            </button>
+            <button class="theme-option" data-theme="lobster" aria-label="Select Lobster theme">
+                <span class="theme-option__icon">🦞</span>
+                <span class="theme-option__name">Lobster</span>
+                <div class="theme-option__colors">
+                    <span class="theme-color theme-color--primary" style="background-color: var(--color-primary)"></span>
+                    <span class="theme-color theme-color--secondary" style="background-color: var(--color-secondary)"></span>
+                    <span class="theme-color theme-color--accent" style="background-color: var(--color-accent)"></span>
+                </div>
+            </button>
+            <button class="theme-option" data-theme="hackernews" aria-label="Select Hacker News theme">
+                <span class="theme-option__icon">📰</span>
+                <span class="theme-option__name">Hacker News</span>
+                <div class="theme-option__colors">
+                    <span class="theme-color theme-color--primary" style="background-color: var(--color-primary)"></span>
+                    <span class="theme-color theme-color--secondary" style="background-color: var(--color-secondary)"></span>
+                    <span class="theme-color theme-color--accent" style="background-color: var(--color-accent)"></span>
+                </div>
+            </button>
+        </div>
+    </div>
+
+    <script src="/assets/js/theme-switcher.js"></script>
+    <script src="/assets/js/main.js"></script>
+    <script src="/assets/js/prism.js"></script>
+</body>
+</html>
